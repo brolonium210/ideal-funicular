@@ -9,3 +9,16 @@
  */ 
 
 #include "abstractdb.hpp"
+#include<string>
+namespace nwen {
+    bool AbstractDbTable::loadCSV(const std::string In){
+        return false;
+    }
+    bool AbstractDbTable::saveCSV(const std::string In){
+        return false;
+    }
+
+
+
+} // nwen
+
