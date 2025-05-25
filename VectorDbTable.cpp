@@ -1,18 +1,8 @@
-/**
- * vectordb.cpp
- * C++ source file that should contain implementation for member functions
- * - rows()
- * - get()
- * - add()
- * - update()
- * - remove()
- * 
- * You need to modify this file to implement the above-mentioned member functions
- * as specified in the hand-out (Task 3)
- */ 
+//
+// Created by parrg on 25/05/2025.
+//
 
-#include "vectordb.hpp"
-
+#include "VectorDbTable.hpp"
 #include<stdexcept>
 
 namespace nwen {
@@ -20,25 +10,16 @@ namespace nwen {
     int VectorDbTable::rows()const {
         return myMovies.size();
     }
-
-    movie* VectorDbTable::get(const int In)const {
+    const movie* VectorDbTable::get(const int In)const {
       try{
-//          return &myMovies.at(In);
-//def need to figure out why this works
-          return const_cast<movie*>(&myMovies.at(In));
+          return &myMovies.at(In);
       }catch(const std::out_of_range& e){
           return nullptr;
       }
     }
-    bool VectorDbTable::add(movie m){
-        for (int i = 0; i < myMovies.size(); i++){
-            movie currMovie = myMovies.at(i);
-            if(currMovie.id == m.id){
-                return false;
-            }
-        }
+    void VectorDbTable::add(movie m){
       myMovies.push_back(m);
-      return true;
+
     }
 //You’re passed an id and a movie m.
 //
@@ -50,6 +31,9 @@ namespace nwen {
 
 
     bool VectorDbTable::update(const int In,movie m){
+
+
+
         for (int i = 0; i < myMovies.size(); i++){
             movie currMovie = myMovies.at(i);
             if(currMovie.id == m.id){
