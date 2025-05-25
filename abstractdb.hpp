@@ -14,6 +14,7 @@
 #define __ABSTRACT_DB_HPP__
 
 #include <string>
+#include <sstream>
 
 namespace nwen 
 {
@@ -23,6 +24,7 @@ namespace nwen
         unsigned short year;
         char director[50];
     };
+
     class AbstractDbTable {
     private:
 
@@ -33,8 +35,8 @@ namespace nwen
         virtual bool add(movie m)=0;
         virtual bool update(const int In,movie m)=0;
         virtual bool remove(const int In)=0;
-        virtual bool loadCSV(const std::string In);
-        virtual bool saveCSV(const std::string In);
+        virtual bool loadCSV(const std::string& filename);
+        virtual bool saveCSV(const std::string& filename);
         virtual ~AbstractDbTable() = default;
     };
 

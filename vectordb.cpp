@@ -52,7 +52,7 @@ namespace nwen {
     bool VectorDbTable::update(const int In,movie m){
         for (int i = 0; i < myMovies.size(); i++){
             movie currMovie = myMovies.at(i);
-            if(currMovie.id == m.id){
+            if(currMovie.id == In){
                 myMovies.at(i) = m;
                 return true;
             }
