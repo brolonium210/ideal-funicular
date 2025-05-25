@@ -21,6 +21,9 @@ namespace nwen {
 
     //-----------------------------------------------------------------------------------------
     // Load
+    // Open the file, read each line, convert it into a movie, and add it to the table.
+    // If the line's not in the right format, stop and return false.
+
     bool AbstractDbTable::loadCSV(const std::string& filename) {
         std::ifstream inFile(filename);
         if (!inFile.is_open()) {
@@ -32,29 +35,32 @@ namespace nwen {
             std::stringstream ss(line);
             std::string idStr, title, yearStr, director;
 
-            // Read ID
+            // ID
             if (!std::getline(ss, idStr, ',')) return false;
 
-            // Read Title
+            // Title
             if (!std::getline(ss, title, ',')) return false;
             if (title.front() == '"' && title.back() == '"') {
                 title = title.substr(1, title.size() - 2); // Remove quotes
             }
 
-            // get Year
+            // Year
             if (!std::getline(ss, yearStr, ',')) return false;
 
-            // get Director
+            // Director
             if (!std::getline(ss, director)) return false;
             if (director.front() == '"' && director.back() == '"') {
                 director = director.substr(1, director.size() - 2); // Remove quotes
             }
 
-            // Ensure Id and Year are ints
-            int id, year;
+            // Ensure Id and Year are longs,this was the start of the problem
+            // int id, year;
+            unsigned long id;
+            unsigned short year;
             try {
-                id = std::stoi(idStr);
-                year = std::stoi(yearStr);
+               id = std::stoul(idStr);
+                year = static_cast<unsigned short>(std::stoi(yearStr));
+
             } catch (const std::exception&) {
                 return false;
             }
@@ -67,6 +73,10 @@ namespace nwen {
 
             std::copy(director.begin(), director.end(), m.director);
             m.director[std::min(director.size(), sizeof(m.director) - 1)] = '\0';
+
+            m.id = id;
+            m.year = year;
+
             if (!this->add(m)) {
                 continue;
             }
@@ -79,6 +89,8 @@ namespace nwen {
 
     //--------------------------------------------------------------------------------
     //Save
+    // Go through all the movies in the table and write them to a CSV file, one per line.
+    // If writing fails at any point, bail out and return false.
 
     bool AbstractDbTable::saveCSV(const std::string& filename) {
         std::ofstream outFile(filename, std::ios::out);
